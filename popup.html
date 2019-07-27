@@ -1,0 +1,140 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/bootstrap.3.3.7.min.css">
+    <link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/popup.css">
+    <link rel="stylesheet" href="js/dialog/skins/opera.css">
+
+    <style>
+        .aui_title {
+            font-size: 14px !important;
+        }
+        .aui_main {
+            max-width: 250px !important;
+            font-size: 13px !important;
+        }
+        .aui_content {
+            padding: 15px 19px;
+        }
+    </style>
+</head>
+<body>
+
+   <div class="container-fluid">
+       <div class="content-body">
+           <div class="_tabs">
+               <ul class="nav nav-tabs">
+                   <li role="presentation" class="active" data-name="player">
+                       <a href="#"><span class="fa fa-play-circle-o"></span> 播放</a>
+                   </li>
+                   <li role="presentation" data-name="insert">
+                       <a href="#"><span class="fa fa-plus-square-o"></span> 添加</a>
+                   </li>
+                   <li role="presentation" data-name="config">
+                       <a href="#"><span class="fa fa-cog"></span> 设置</a>
+                   </li>
+               </ul>
+           </div>
+           <section class="tab-box" data-name="player">
+               <ul class="playlist" >
+
+               </ul>
+           </section>
+           <section class="tab-box" data-name="insert" style="display: none;">
+               <div class="insert-player">
+                   <div class="insert-common">
+                       <div class="form-group">
+                           <label>添加类型</label>
+                           <div>
+                               <label class="radio-inline">
+                                   <input class="insert-genre" type="radio" name="genre" value="url" vf-bind="genre" vf-rule="require" vf-msg="请选择添加类型" checked> 文章阅读
+                               </label>
+                               <label class="radio-inline">
+                                   <input class="insert-genre" type="radio" name="genre" value="text" > 文本阅读
+                               </label>
+                           </div>
+                       </div>
+                   </div>
+
+                   <div class="insert-url">
+                       <div class="form-group">
+                           <label>文章url</label>
+                           <input type="text" class="form-control" vf-bind="source_url" vf-rule="require|url" vf-msg="请填写文章url" placeholder="目标文章url地址">
+                       </div>
+                   </div>
+
+                   <div class="insert-text" style="display:none;">
+                       <div class="form-group">
+                           <label>文本标题</label>
+                           <input type="text" class="form-control" vf-bind="title" vf-rule="require" vf-msg="请填写文本标题" placeholder="文本标题">
+                       </div>
+                       <div class="form-group">
+                           <label>文本内容</label>
+                           <textarea class="form-control" rows="6" vf-bind="source_text" vf-rule="require" vf-msg="请填写文本内容" placeholder="阅读文本内容"></textarea>
+                       </div>
+                   </div>
+
+                   <div class="_btnbox">
+                       <button type="button" class="btn btn-block btn-success btn-sm btn-confirm">确认添加</button>
+                   </div>
+               </div>
+           </section>
+
+           <section class="tab-box" data-name="config" style="display: none;">
+               <div class="insert-config">
+                   <div class="form-group">
+                       <label>发音人</label>
+                       <select class="form-control" vf-bind="voice_name">
+                           <option value="aixia" selected>艾夏[亲和女声]</option>
+                           <option value="aiqi">艾琪[温柔女声]</option>
+                           <option value="aijia">艾佳[标准女声]</option>
+                           <option value="siqi">思琪[温柔女声]</option>
+                           <option value="aibao">艾宝[萝莉女声]</option>
+                           <option value="siyue">思悦[温柔女声]</option>
+                           <option value="aida">艾达[标准男声]</option>
+                           <option value="aicheng">艾诚[标准男声]</option>
+                           <option value="sicheng">思诚[标准男声]</option>
+                       </select>
+                   </div>
+                   <div class="form-group">
+                       <label>朗读速度</label>
+                       <select class="form-control" vf-bind="speed">
+                           <option value="normal" selected>正常</option>
+                           <option value="faster">较快</option>
+                           <option value="slower">较慢</option>
+                           <option value="fast">快</option>
+                           <option value="slow">慢</option>
+                       </select>
+                   </div>
+               </div>
+
+               <div class="_btnbox">
+                   <button type="button" class="btn btn-block btn-success btn-sm btn-confirm-config">保存设置</button>
+               </div>
+           </section>
+
+           <div class="player-boot">
+               <div class="info">
+                   pause
+               </div>
+
+               <div class="_operate">
+                   <label class="_waiting"></label>&nbsp;
+                   <span class="_start fa fa-play" title="播放"></span>
+                   <span class="_stop fa fa-pause-circle-o" title="暂停" style="display:none;"></span>
+               </div>
+           </div>
+       </div>
+   </div>
+</body>
+
+<script src="js/jquery/jquery.min.js"></script>
+<script src="js/app/databind-1.1.4.min.js"></script>
+<script src="js/dialog/jquery.artDialog.js"></script>
+<script src="js/dialog/plugins/iframeTools.js"></script>
+<script src="js/app/common.js"></script>
+<script src="js/app/voicetts.js"></script>
+<script src="js/app/storage.js"></script>
+<script src="js/popup.js"></script>
+</html>

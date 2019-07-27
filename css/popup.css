@@ -1,0 +1,172 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    width: 380px;
+    height: 550px;
+    padding: 5px 8px;
+}
+.hide {
+    display: none;
+}
+.pointer {
+    cursor: pointer;
+}
+
+.container-fluid {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+._tabs {
+    margin: 5px 0;
+    width: 100%;
+}
+._tabs .nav li a {
+    padding: 6px 12px !important;
+}
+._tabs .nav a {
+    color: #999;
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    color: #555;
+    cursor: default;
+    background-color: #fff;
+}
+
+
+.playlist {
+    margin-top: 15px;
+    overflow: overlay;
+    max-height: 424px;
+}
+.playlist li dl {
+    margin: 9px 9px 0 9px;
+    padding: 4px 0px;
+}
+.playlist li dd , .playlist li dl {
+    color: #545253;
+    font-size: 13px;
+}
+.playlist li dd {
+    line-height: 2;
+    white-space: nowrap;
+    max-width: 265px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.playlist li dt {
+    line-height: 2;
+    white-space: nowrap;
+    max-width: 265px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.playlist>li:nth-child(2n-1) {
+    background: #fafafd94;
+}
+.playlist>li:nth-child(2n) {
+    background: #eeeef1;
+}
+.playlist li {
+    width: 350px;
+    display: block;
+    position: relative;
+    border-radius: 5px;
+}
+.playlist li:hover .delete-btn {
+    opacity: 1;
+    transition: opacity 1.5s;
+    -moz-transition: opacity 1.5s; /* Firefox 4 */
+    -webkit-transition: opacity 1.5s; /* Safari 和 Chrome */
+    -o-transition: opacity 1.5s; /* Opera */
+}
+.playlist li .delete-btn {
+    opacity: 0;
+    float: right;
+    position: absolute;
+    right: 15px;
+    top: 19px;
+    font-size: 20px;
+    color: #9e9e9e;
+}
+.playlist li .delete-btn:hover {
+    color: #e94c2d;
+}
+
+.playlist li:hover .player-btn {
+    opacity: 1;
+    transition: opacity 1.5s;
+    -moz-transition: opacity 1.5s; /* Firefox 4 */
+    -webkit-transition: opacity 1.5s; /* Safari 和 Chrome */
+    -o-transition: opacity 1.5s; /* Opera */
+}
+.playlist li .player-btn {
+    opacity: 0;
+    float: right;
+    position: absolute;
+    right: 48px;
+    top: 19px;
+    font-size: 20px;
+    color: #9e9e9e;
+}
+.playlist li .player-btn:hover {
+    color: #38b54e;
+}
+
+.insert-player {
+    margin: 0 auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.player-boot {
+    position: fixed;
+    bottom: 6px;
+    box-sizing: border-box;
+    border-top: 1px solid #f1f1f1;
+    background: #d9edf7d6;
+    display: flex;
+    height: 54px;
+    border-radius: 5px;
+    width: 365px;
+}
+.player-boot .info {
+    order: 0;
+    flex: 1;
+    color: #726f73;
+    height: 54px;
+    line-height: 54px;
+    cursor: default;
+    padding-left: 10px;
+    padding-right: 13px;
+    white-space: nowrap;
+    max-width: 225px;
+    overflow: hidden;
+    font-weight: 800;
+    text-overflow: ellipsis;
+}
+.player-boot ._operate {
+
+}
+.player-boot ._operate label {
+    width: 90px;
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 0;
+    font-weight:normal;
+    color: #da6868;
+}
+.player-boot ._operate span {
+    cursor: pointer;
+    padding: 0 5px;
+    line-height: 54px;
+    font-size: 20px;
+    color: rgba(158, 158, 158, 0.77);
+}
+.player-boot ._operate ._stop {
+    font-size: 23px;
+}
+.player-boot ._operate span:hover{
+    color: #27d22a;
+}

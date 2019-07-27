@@ -1,0 +1,27 @@
+{
+    "manifest_version": 2,
+    "name": "听说",
+    "version": "1.0.0",
+    "description": "",
+    "background": {
+        "page": "background.html",
+        "persistent": true
+    },
+    "icons": {
+        "16": "images/logo-16.png",
+        "48": "images/logo-48.png"
+    },
+    "browser_action": {
+        "default_title": "听说",
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "storage",
+        "contextMenus",
+        "webRequest",
+        "*://*/*"
+    ],
+    "web_accessible_resources": [
+        "js/jquery/jquery.min.js"
+    ]
+}
