@@ -1,32 +1,29 @@
 $(function () {
     let pageAudio = new AudioPlay();
 
-    //注册菜单
+    //失败回调通知
+    let errorHandle = function (message) {
+        //发出通知
+        chrome.notifications.create({
+            type:'basic',
+            iconUrl:'/images/logo-16.png',
+            title:'失败',
+            message:message
+        });
+        console.log(message);
+    }
+    
+    //注册自定义右键菜单
     chrome.contextMenus.create({
         type: 'normal',
-        title: '加入到播放列表',
+        title: '加入到朗读列表',
         id: '_create_',
         documentUrlPatterns:['*://mp.weixin.qq.com/*'],
         onclick:function (page) {
-            chrome.storage.local.get('say_config' , function(data){
-                let say_config = {};
-                if (data && data.hasOwnProperty('say_config')) {
-                    say_config = data.say_config;
-                }
-                let subdata = {genre:'url',source:page.pageUrl};
-                subdata = $.extend(say_config , subdata);
+            //获取用户配置
+            pageAudio.storage.getSayConfig(function (say_config) {
+                let subdata = $.extend(say_config , {genre:'url',source:page.pageUrl});
 
-                //请求添加
-                let errorHandle = function (message) {
-                    //发出通知
-                    chrome.notifications.create({
-                        type:'basic',
-                        iconUrl:'/images/logo-16.png',
-                        title:'失败',
-                        message:message
-                    });
-                    console.log(message);
-                }
                 pageAudio.ttsApp.create(subdata , function (data) {
                     let taskid = data.taskid;
                     pageAudio.ttsApp.getinfo(taskid , function (taskinfo) {
@@ -40,6 +37,37 @@ $(function () {
             });
         }
     });
+
+    //注册自定义右键菜单
+    chrome.contextMenus.create({
+        type: 'normal',
+        title: '将选定文本加入到朗读列表',
+        id: '_create_text_',
+        contexts:['selection'],
+        onclick:function (page) {
+            //获取用户配置
+            pageAudio.storage.getSayConfig(function (say_config) {
+                let content = page.selectionText;
+                if (content.length < 10) {
+                    errorHandle('加入列表失败，选定文本字符不能少于 15');return false;
+                }
+                let title = $.trim(String(content)).split('').slice(0 , 18).join('');
+                let subdata = $.extend(say_config , {genre:'text',source:content,title:title});
+
+                pageAudio.ttsApp.create(subdata , function (data) {
+                    let taskid = data.taskid;
+                    pageAudio.ttsApp.getinfo(taskid , function (taskinfo) {
+                        pageAudio.storage.put(taskinfo , function () {
+                            //添加成功
+                            //加入新的播放
+                            pageAudio.newPlayer();
+                        });
+                    } , errorHandle);
+                } , errorHandle);
+            });
+        }
+    });
+
 
     //监听播放完毕
     pageAudio.getAudio().addEventListener('ended', function () {

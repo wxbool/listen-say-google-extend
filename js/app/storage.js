@@ -3,6 +3,17 @@ class Storage {
         this.key = '_player_runing_';
     }
 
+    //获取配置
+    getSayConfig (callback) {
+        chrome.storage.local.get('say_config' , function(data){
+            let say_config = {};
+            if (data && data.hasOwnProperty('say_config')) {
+                say_config = data.say_config;
+            }
+            callback && callback(say_config);
+        });
+    }
+
     put (player , callback) {
         let $this = this;
 
