@@ -22,4 +22,9 @@ class Speak {
         });
         chrome.tts.speak(`准备播放：${title}，请稍后...` , config);
     }
+
+
+    stop () {
+        chrome.tts.stop();
+    }
 }

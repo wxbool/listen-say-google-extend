@@ -140,10 +140,6 @@ class AudioPlay {
             return;
         }
 
-        if ($this.currentIndex == index) {
-            return;
-        }
-
         $this.audio.pause(); //先暂停
         $this.storage.get(index , function (data) {
             if (!data){
@@ -151,9 +147,16 @@ class AudioPlay {
             }
             //0等待开始，1读取任务配置，2语音合成中，3任务完成，4任务异常
             if (data.status === 4) {
-                alert('语音合成异常');return;
+                chrome.notifications.create({
+                    type:'basic',
+                    iconUrl:'/images/logo-16.png',
+                    title:'错误',
+                    message:`语音合成异常：${data.fail_remark}`,
+                    contextMessage:data.title
+                });
+                return;
             }
-            console.log('player' , data);
+
             $this.current = data;
             $this.currentIndex = index;
             $this.currentPlayerIndex = 1;
@@ -170,7 +173,8 @@ class AudioPlay {
         if (!$this.currentIndex) {
             return;
         }
-        
+
+        $this.speak.stop();
         $this.speak.player($this.current.title , function () {
             
             clearInterval($this.currentTimeOut); //清除定时任务
