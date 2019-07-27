@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "听说",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "这是一个文章朗读助手，解放双眼，聆听世界。",
     "homepage_url": "https://github.com/wxbool/listen-say-google-extend",
     "background": {
@@ -16,9 +16,18 @@
         "default_title": "听说",
         "default_popup": "popup.html"
     },
+	"tts_engine": {
+	  "voices": [
+		{
+		  "voice_name": "viggo",
+		  "event_types": ["end" , "error"]
+		}
+	  ]
+	},
     "permissions": [
         "tabs",
         "tts",
+        "ttsEngine",
         "storage",
         "contextMenus",
         "webRequest",
