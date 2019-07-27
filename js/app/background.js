@@ -94,6 +94,7 @@ class AudioPlay {
         this.audio = document.getElementById(this.id);
         this.ttsApp = new VoiceTts();
         this.storage = new Storage();
+        this.speak = new Speak();
 
         this.current = {}; //当前播放
         this.currentIndex = 0; //当前播放指针
@@ -104,6 +105,8 @@ class AudioPlay {
             wait:false,
             palyer:false
         };
+
+        this.currentTimeOut = {}; //当前播放定时器
     }
 
 
@@ -137,6 +140,10 @@ class AudioPlay {
             return;
         }
 
+        if ($this.currentIndex == index) {
+            return;
+        }
+
         $this.audio.pause(); //先暂停
         $this.storage.get(index , function (data) {
             if (!data){
@@ -146,6 +153,7 @@ class AudioPlay {
             if (data.status === 4) {
                 alert('语音合成异常');return;
             }
+            console.log('player' , data);
             $this.current = data;
             $this.currentIndex = index;
             $this.currentPlayerIndex = 1;
@@ -162,41 +170,50 @@ class AudioPlay {
         if (!$this.currentIndex) {
             return;
         }
-        let current = $this.current;
-        let waitCurrent = function (){
-            $this.updateIndexPlayer(current.taskid , $this.currentIndex , function () {
-                $this.storage.get($this.currentIndex , function (data) {
-                    if (data.status === 4) {
-                        alert('语音合成异常');return false;
+        
+        $this.speak.player($this.current.title , function () {
+            
+            clearInterval($this.currentTimeOut); //清除定时任务
+            //循环缓冲
+            $this.currentTimeOut = setInterval(function () {
+                $this.setCurrentStatus('wait' , true);  //wait
+
+                if ($this.current.status === 2) {
+                    if ($this.current.loadnums > 0) {  //已存在音频文件
+                        $this.playCurrentSrc($this.currentPlayerIndex); //播放
+                        clearInterval($this.currentTimeOut);
+                        return;
                     }
-                    $this.current = data;
-                    current = $this.current;
-                    playerCurrent();
-                });
-            });
-        }
-        let playerCurrent = function () {
-            if (current.status === 0 || current.status === 1) {
-                //缓冲
-                setTimeout(function () {
-                    $this.setCurrentStatus('wait' , true);  //wait
-                    waitCurrent();
-                } , 800);
-            } else if (current.status === 2) {
-                if (current.loadnums > 0) {
-                    $this.playCurrentSrc($this.currentPlayerIndex);
-                } else {
-                    //缓冲
-                    setTimeout(function () {
-                        $this.setCurrentStatus('wait' , true);  //wait
-                        waitCurrent();
-                    } , 800);
+                } else if ($this.current.status === 3) { //已加载完成
+                    $this.playCurrentSrc($this.currentPlayerIndex); //播放
+                    clearInterval($this.currentTimeOut);
+                    return;
                 }
-            } else if (current.status === 3) {
-                $this.playCurrentSrc($this.currentPlayerIndex);
-            }
-        }
-        playerCurrent();
+
+                //更新任务信息
+                $this.updateIndexPlayer($this.current.taskid , $this.currentIndex , function () {
+                    $this.storage.get($this.currentIndex , function (data) {
+                        if (data.status === 4) {
+                            //发出通知
+                            chrome.notifications.create({
+                                type:'basic',
+                                iconUrl:'/images/logo-16.png',
+                                title:'错误',
+                                message:`语音合成异常：${data.fail_remark}`,
+                                contextMessage:data.title
+                            });
+                            clearInterval($this.currentTimeOut);
+                            return;
+                        }
+                        //last validate
+                        if (data.taskid == $this.current.taskid) {
+                            $this.current = data;
+                        }
+                    });
+                });
+            } , 1000);
+
+        });
     }
 
 
@@ -241,7 +258,9 @@ class AudioPlay {
 
         try {
             $this.ttsApp.getinfo(taskid , function (taskinfo) {
-                $this.storage.set(index , taskinfo , callback);
+                if (taskinfo.taskid == taskid) {
+                    $this.storage.set(index , taskinfo , callback);
+                }
             });
         } catch (e) {
             console.log(e);

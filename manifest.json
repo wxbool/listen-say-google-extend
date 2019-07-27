@@ -18,6 +18,7 @@
     },
     "permissions": [
         "tabs",
+        "tts",
         "storage",
         "contextMenus",
         "webRequest",
