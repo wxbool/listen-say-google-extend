@@ -1,6 +1,46 @@
 $(function () {
     let pageAudio = new AudioPlay();
 
+    //注册菜单
+    chrome.contextMenus.create({
+        type: 'normal',
+        title: '加入到播放列表',
+        id: '_create_',
+        documentUrlPatterns:['*://mp.weixin.qq.com/*'],
+        onclick:function (page) {
+            chrome.storage.local.get('say_config' , function(data){
+                let say_config = {};
+                if (data && data.hasOwnProperty('say_config')) {
+                    say_config = data.say_config;
+                }
+                let subdata = {genre:'url',source:page.pageUrl};
+                subdata = $.extend(say_config , subdata);
+
+                //请求添加
+                let errorHandle = function (message) {
+                    //发出通知
+                    chrome.notifications.create({
+                        type:'basic',
+                        iconUrl:'/images/logo-16.png',
+                        title:'失败',
+                        message:message
+                    });
+                    console.log(message);
+                }
+                pageAudio.ttsApp.create(subdata , function (data) {
+                    let taskid = data.taskid;
+                    pageAudio.ttsApp.getinfo(taskid , function (taskinfo) {
+                        pageAudio.storage.put(taskinfo , function () {
+                            //添加成功
+                            //加入新的播放
+                            pageAudio.newPlayer();
+                        });
+                    } , errorHandle);
+                } , errorHandle);
+            });
+        }
+    });
+
     //监听播放完毕
     pageAudio.getAudio().addEventListener('ended', function () {
         pageAudio.playerOver();
@@ -50,7 +90,7 @@ $(function () {
 class AudioPlay {
     constructor() {
         this.id = 'music-audio';
-        this.playUrl = 'http://www.listensay.com/';
+        this.playUrl = 'http://api.aiyingso.com:88/';
         this.audio = document.getElementById(this.id);
         this.ttsApp = new VoiceTts();
         this.storage = new Storage();

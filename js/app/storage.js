@@ -10,7 +10,6 @@ class Storage {
             throw new Error('player is not object .');
         }
         chrome.storage.local.get($this.key , function(data){
-            console.log(data);
             if (data) {
                 if (data.hasOwnProperty($this.key) && data[$this.key].length > 0) {
                     let originData = data[$this.key];

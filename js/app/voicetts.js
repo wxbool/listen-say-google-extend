@@ -1,7 +1,7 @@
 class VoiceTts {
     constructor() {
-        this.ttsApi = 'http://www.listensay.com/api/listen/create';
-        this.getApi = 'http://www.listensay.com/api/listen/getinfo';
+        this.ttsApi = 'http://api.aiyingso.com:88/api/listen/create';
+        this.getApi = 'http://api.aiyingso.com:88/api/listen/getinfo';
     }
 
     /**

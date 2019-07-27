@@ -7,6 +7,7 @@ class PageScript {
 
     constructor() {
         this.insertData = $.databind({area:'.insert-player' , errorHandle:function (message , thisEle , tipsEle) {
+            $(".btn-confirm").attr('disabled' , false);
             tips.alert(message);
         }});
         this.configData = $.databind({area:'.insert-config' , errorHandle:function (message , thisEle , tipsEle) {
@@ -75,12 +76,17 @@ class PageScript {
             let appendHtml = '';
             for (let i in data) {
                 let item = data[i];
+
+                let target_url = '';
+                if (item.target_url) {
+                    target_url = ` | <a href="javascript:;" class="_target_url" data-url="${item.target_url}">${item.target_url}</a>`;
+                }
                 let playItem = `<li>
                            <dl>
                                <dt title="${item.title}">${item.index}.${item.title}</dt>
                                <dd>
                                     ${item.genre == 'text' ? '文本阅读' : '文章阅读'}
-                                    ${item.target_url ? ' | ' + item.target_url : ''}
+                                    ${target_url}
                                </dd>
                                 
                                <span class="fa fa-close delete-btn pointer" data-index="${item.index}"></span>
@@ -122,6 +128,14 @@ class PageScript {
             }
         });
 
+        //打开链接
+        $("body").delegate(".playlist ._target_url" , "click" , function () {
+            let url = $(this).data('url');
+            if (url) {
+                chrome.tabs.create({url:url});
+            }
+        });
+
         //开始播放指定音频
         $("body").delegate(".playlist .player-btn" , "click" , function () {
             let index = $(this).data('index');
@@ -136,6 +150,7 @@ class PageScript {
                 $this.loadPlayList();
             });
         })
+
 
         //暂停播放
         $("._stop").click(function () {
@@ -152,7 +167,8 @@ class PageScript {
         });
 
         //添加播放
-        $(".btn-confirm").click(function () {
+        let $btnConfirm = $(".btn-confirm");
+        $btnConfirm.click(function () {
             let genre = $this.insertData.get('genre');
             let vali;
             if (genre == 'text') {
@@ -163,6 +179,9 @@ class PageScript {
             if (vali !== true) {
                 return;
             }
+
+            $btnConfirm.html('添加中 <i class="fa fa-spinner fa-pulse"></i>').attr('disabled' , true);
+
             let data = $this.insertData.get();
             let subdata = {
                 genre:data.genre
@@ -178,6 +197,7 @@ class PageScript {
             subdata = $.extend(subdata , config);
             //错误处理
             let errorHandle = function (message) {
+                $btnConfirm.html('确认添加').attr('disabled' , false);
                 tips.alert(message);
             }
             $this.ttsApp.create(subdata , function (data) {
@@ -188,8 +208,9 @@ class PageScript {
                         //加载播放列表
                         $this.loadPlayList();
 
+                        $btnConfirm.html('确认添加').attr('disabled' , false);
                         tips.alert('添加成功');
-                        $this.insertData.remove('title,source_text,source_url');
+                        $this.insertData.clear('title,source_text,source_url');
                     });
                 } , errorHandle);
             } , errorHandle);
