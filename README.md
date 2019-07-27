@@ -10,6 +10,7 @@
 * 对接了阿里云智能语音合成（tts），有多个发音人可选择
 * 支持添加多个播放队列
 * 支持微信公众号文章一键朗读
+* 支持选定文本一键朗读
 * 支持自定义文本内容朗读
 
 # 说明
@@ -23,3 +24,5 @@
 ![界面截图2](http://pan.52xyuguo.com/?/%E6%88%91%E7%9A%84%E8%BD%AF%E4%BB%B6/%E6%88%AA%E5%9B%BE/google-2.png)
 
 ![界面截图3](http://pan.52xyuguo.com/?/%E6%88%91%E7%9A%84%E8%BD%AF%E4%BB%B6/%E6%88%AA%E5%9B%BE/google-3.png)
+
+![界面截图4](http://pan.52xyuguo.com/?/%E6%88%91%E7%9A%84%E8%BD%AF%E4%BB%B6/%E6%88%AA%E5%9B%BE/google-4.png)
