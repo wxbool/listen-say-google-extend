@@ -129,7 +129,7 @@ class PageScript {
         });
 
         //打开链接
-        $("body").delegate(".playlist ._target_url" , "click" , function () {
+        $("body").delegate("._target_url" , "click" , function () {
             let url = $(this).data('url');
             if (url) {
                 chrome.tabs.create({url:url});
