@@ -31,4 +31,11 @@ class Speak {
     stop () {
         chrome.tts.stop();
     }
+
+    /**
+     * @param callback
+     */
+    isSpeak (callback) {
+        chrome.tts.isSpeaking(callback);
+    }
 }

@@ -305,17 +305,24 @@ class AudioPlay {
         let $this = this;
         if (!$this.audio.paused) {  //播放中
             return;
-        }
+        };
 
-        //自动切换到最后插入的
-        $this.getEndIndex(function (index , data) {
-            if (index === 0) {
-                return false; //没有
+        $this.speak.isSpeak(function (speak) {
+            if (speak) {
+                return; //已将开始播放讲述人
             }
-            setTimeout(function () {
-                $this.playIndex(index);
-            } , 1000)
-        });
+
+            //无播放进行中
+            //自动切换到最后插入的
+            $this.getEndIndex(function (index , data) {
+                if (index === 0) {
+                    return false; //没有
+                }
+                setTimeout(function () {
+                    $this.playIndex(index);
+                } , 1000)
+            });
+        })
     }
 
 
@@ -371,6 +378,8 @@ class AudioPlay {
                     $this.current = {};
                     $this.currentIndex = 0;
                     $this.currentPlayerIndex = 1;
+
+                    $this.audio.src = ''; //清空播放
                     return false; //没有啦
                 }
 
@@ -394,6 +403,9 @@ class AudioPlay {
             $this.current = {};
             $this.currentIndex = 0;
             $this.currentPlayerIndex = 1;
+
+            $this.speak.stop();  //关闭讲述人
+            clearInterval($this.currentTimeOut); //清除定时任务
 
             $this.audio.src = '';
             $this.audio.pause();

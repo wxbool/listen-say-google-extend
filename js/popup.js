@@ -89,8 +89,9 @@ class PageScript {
                                     ${target_url}
                                </dd>
                                 
-                               <span class="fa fa-close delete-btn pointer" data-index="${item.index}"></span>
-                               <span class="fa fa-play-circle-o player-btn pointer" data-index="${item.index}"></span>
+                               <span class="fa fa-close delete-btn pointer" title="移出列表" data-index="${item.index}"></span>
+                               <span class="fa fa-download download-btn pointer" title="下载音频" data-index="${item.index}"></span>
+                               <span class="fa fa-play-circle-o player-btn pointer" title="开始播放" data-index="${item.index}"></span>
                            </dl>
                         </li>`;
 
@@ -140,7 +141,28 @@ class PageScript {
         $("body").delegate(".playlist .player-btn" , "click" , function () {
             let index = $(this).data('index');
             chrome.runtime.sendMessage({type:'thisplayer',data:{index:index}});
-        })
+        });
+        
+        //下载任务音频
+        $("body").delegate(".playlist .download-btn" , "click" , function () {
+            let index = $(this).data('index');
+            $this.storage.get(index , function (taskinfo) {
+                if (!taskinfo) {
+                    return;
+                }
+                $this.ttsApp.getdownload(taskinfo.taskid , function (result) {
+                    let output = $this.ttsApp.getdownloadurl(result.output);
+                    //发起下载
+                    chrome.downloads.download({url:output,saveAs:true,filename:taskinfo.title + '.mp3'} , function (downid) {
+                        if (!downid) {
+                            //下载失败
+                        }
+                    });
+                } , function (message) {
+                    tips.alert(message);
+                });
+            });
+        });
 
         //删除播放队列
         $("body").delegate(".playlist .delete-btn" , "click" , function () {
@@ -149,7 +171,7 @@ class PageScript {
                 chrome.runtime.sendMessage({type:'deleteplayer',data:{index:index}});
                 $this.loadPlayList();
             });
-        })
+        });
 
 
         //暂停播放
