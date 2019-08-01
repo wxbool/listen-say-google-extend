@@ -18,7 +18,14 @@ $(function () {
         type: 'normal',
         title: '加入到朗读列表',
         id: '_create_',
-        documentUrlPatterns:['*://mp.weixin.qq.com/*'],
+        documentUrlPatterns:[
+            '*://mp.weixin.qq.com/*',
+            '*://www.jianshu.com/p/*',
+            '*://36kr.com/p/*',
+            '*://www.huxiu.com/article/*',
+            '*://www.guokr.com/article/*',
+            '*://daily.zhihu.com/story/*'
+        ],
         onclick:function (page) {
             //获取用户配置
             pageAudio.storage.getSayConfig(function (say_config) {

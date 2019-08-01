@@ -64,7 +64,16 @@
                        <div class="form-group">
                            <label>文章url</label>
                            <input type="text" id="source_url_tips" class="form-control" vf-bind="source_url" vf-rule="require|url" vf-msg="请填写文章url" placeholder="目标文章url地址">
-                           <label class="control-label" for="source_url_tips" style="margin-top: 5px;"><small class="text-warning">目前仅支持微信公众号、简书文章</small></label>
+                           <label class="control-label" for="source_url_tips" style="margin-top: 8px;">
+                               <small class="text-warning">
+                                   目前支持<a href="#">微信公众号</a>、
+                                   <a href="#" class="_target_url" data-url="http://daily.zhihu.com/">知乎日报</a>、
+                                   <a href="#" class="_target_url" data-url="https://36kr.com/information/web_news">36氪</a>、
+                                   <a href="#" class="_target_url" data-url="https://www.huxiu.com/article">虎嗅</a> 、
+                                   <a href="#" class="_target_url" data-url="https://www.guokr.com/">果壳</a>、
+                                   <a href="#" class="_target_url" data-url="https://www.jianshu.com/">简书</a>文章
+                               </small>
+                           </label>
                        </div>
                    </div>
 
