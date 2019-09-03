@@ -25,10 +25,10 @@
 
 # 界面截图
 
-![界面截图1](http://pan.52xyuguo.com/?/%E6%88%91%E7%9A%84%E8%BD%AF%E4%BB%B6/%E6%88%AA%E5%9B%BE/google-1.png)
+![界面截图1](http://pan.viggo.site/?/%e6%88%91%e7%9a%84%e6%96%87%e4%bb%b6/%E6%88%91%E7%9A%84%E8%BD%AF%E4%BB%B6/%E6%88%AA%E5%9B%BE/google-1.png)
 
-![界面截图2](http://pan.52xyuguo.com/?/%E6%88%91%E7%9A%84%E8%BD%AF%E4%BB%B6/%E6%88%AA%E5%9B%BE/google-2.png)
+![界面截图2](http://pan.viggo.site/?/%e6%88%91%e7%9a%84%e6%96%87%e4%bb%b6/%E6%88%91%E7%9A%84%E8%BD%AF%E4%BB%B6/%E6%88%AA%E5%9B%BE/google-2.png)
 
-![界面截图3](http://pan.52xyuguo.com/?/%E6%88%91%E7%9A%84%E8%BD%AF%E4%BB%B6/%E6%88%AA%E5%9B%BE/google-3.png)
+![界面截图3](http://pan.viggo.site/?/%e6%88%91%e7%9a%84%e6%96%87%e4%bb%b6/%E6%88%91%E7%9A%84%E8%BD%AF%E4%BB%B6/%E6%88%AA%E5%9B%BE/google-3.png)
 
-![界面截图4](http://pan.52xyuguo.com/?/%E6%88%91%E7%9A%84%E8%BD%AF%E4%BB%B6/%E6%88%AA%E5%9B%BE/google-4.png)
+![界面截图4](http://pan.viggo.site/?/%e6%88%91%e7%9a%84%e6%96%87%e4%bb%b6/%E6%88%91%E7%9A%84%E8%BD%AF%E4%BB%B6/%E6%88%AA%E5%9B%BE/google-4.png)
