@@ -241,6 +241,7 @@ class PageScript {
         //保存设置
         $(".btn-confirm-config").click(function () {
             let data = $this.configData.get();
+
             chrome.storage.local.set({say_config:data} , function(){
                 tips.alert('保存成功');
             });

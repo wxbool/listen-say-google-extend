@@ -210,47 +210,58 @@ class AudioPlay {
         }
 
         $this.speak.stop();
-        $this.speak.player($this.current.title , function () {
-            
-            clearInterval($this.currentTimeOut); //清除定时任务
-            //循环缓冲
-            $this.currentTimeOut = setInterval(function () {
-                $this.setCurrentStatus('wait' , true);  //wait
 
-                if ($this.current.status === 2) {
-                    if ($this.current.loadnums > 0) {  //已存在音频文件
+        //获取配置
+        $this.storage.getSayConfig(function (sysconfig) {
+            //引导提示音
+            let isplays_sound = true;
+            if (sysconfig.hasOwnProperty("plays_sound") && sysconfig.plays_sound == 2) {
+                isplays_sound = false;
+            }
+
+            $this.speak.player($this.current.title , isplays_sound , function () {
+
+                clearInterval($this.currentTimeOut); //清除定时任务
+                //循环缓冲
+                $this.currentTimeOut = setInterval(function () {
+                    $this.setCurrentStatus('wait' , true);  //wait
+
+                    if ($this.current.status === 2) {
+                        if ($this.current.loadnums > 0) {  //已存在音频文件
+                            $this.playCurrentSrc($this.currentPlayerIndex); //播放
+                            clearInterval($this.currentTimeOut);
+                            return;
+                        }
+                    } else if ($this.current.status === 3) { //已加载完成
                         $this.playCurrentSrc($this.currentPlayerIndex); //播放
                         clearInterval($this.currentTimeOut);
                         return;
                     }
-                } else if ($this.current.status === 3) { //已加载完成
-                    $this.playCurrentSrc($this.currentPlayerIndex); //播放
-                    clearInterval($this.currentTimeOut);
-                    return;
-                }
 
-                //更新任务信息
-                $this.updateIndexPlayer($this.current.taskid , $this.currentIndex , function () {
-                    $this.storage.get($this.currentIndex , function (data) {
-                        if (data.status === 4) {
-                            //发出通知
-                            chrome.notifications.create({
-                                type:'basic',
-                                iconUrl:'/images/logo-16.png',
-                                title:'错误',
-                                message:`语音合成异常：${data.fail_remark}`,
-                                contextMessage:data.title
-                            });
-                            clearInterval($this.currentTimeOut);
-                            return;
-                        }
-                        //last validate
-                        if (data.taskid == $this.current.taskid) {
-                            $this.current = data;
-                        }
+                    //更新任务信息
+                    $this.updateIndexPlayer($this.current.taskid , $this.currentIndex , function () {
+                        $this.storage.get($this.currentIndex , function (data) {
+                            if (data.status === 4) {
+                                //发出通知
+                                chrome.notifications.create({
+                                    type:'basic',
+                                    iconUrl:'/images/logo-16.png',
+                                    title:'错误',
+                                    message:`语音合成异常：${data.fail_remark}`,
+                                    contextMessage:data.title
+                                });
+                                clearInterval($this.currentTimeOut);
+                                return;
+                            }
+                            //last validate
+                            if (data.taskid == $this.current.taskid) {
+                                $this.current = data;
+                            }
+                        });
                     });
-                });
-            } , 1000);
+                } , 1000);
+
+            });
 
         });
     }
