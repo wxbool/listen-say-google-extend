@@ -1,6 +1,6 @@
 class VoiceTts {
     constructor() {
-        this.tssdomain = 'http://api.aiyingso.com:88';
+        this.tssdomain = 'http://say.viggo.site';
         this.ttsApi = this.tssdomain + '/api/listen/create';
         this.getApi = this.tssdomain + '/api/listen/getinfo';
         this.downloadApi = this.tssdomain + '/api/listen/download';

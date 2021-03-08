@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "听说",
-    "version": "1.0.5",
+    "version": "1.1.0",
     "description": "这是一个文章朗读助手，解放双眼，聆听世界。",
     "homepage_url": "https://github.com/wxbool/listen-say-google-extend",
     "background": {

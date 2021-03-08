@@ -191,3 +191,40 @@ body {
 .player-boot ._operate span:hover{
     color: #27d22a;
 }
+/*.tab-container {max-height: 428px;overflow-y: scroll;}*/
+
+.voice-header {background: #262729;border-bottom:none;}
+.voice-header > li {margin-bottom: 0;}
+.voice-header > li > a {
+    border-radius: 0;
+    line-height: 32px;
+    height: 32px;
+    padding: 0 14px;
+    color: #ffffff;
+    margin-right: 0;
+    border:none;
+}
+.voice-header > li.active > a{
+    color: #fff;
+    cursor: default;
+    background-color: #ff721f;
+    border:none;
+}
+.voice-header>li>a:hover , .voice-header>li>a:focus {background-color: #ff721f;color: #fff;border:none;}
+.voice-header>li.active>a:hover , .voice-header>li.active>a:focus {background-color: #ff721f;color: #fff; border:none;}
+.voice-container {padding: 12px 8px 12px 8px;background: #484848;border-radius: 0 0 4px 4px;}
+.voice-container .voice-group {display: none;text-align: center;}
+.voice-container .voice-group.show {display: block;}
+.voice-container .voicer-personal {margin-right: 8px;border: 1px solid #e2e2e2;border-radius: 3px;display: inline-block;cursor: pointer;text-align: center;padding: 7px 6px;margin-bottom: 8px;}
+.voice-container .voicer-personal.active {background: #dc0a88;border: 1px solid #dc0a88;}
+.voice-container .voicer-personal h4 {
+    color: #ffffff;
+    margin: 0;
+    font-size: 13px;
+}
+.voice-container .voicer-personal small {
+    color: #e8e8e8;margin-left: 5px;
+}
+.voice-container .voicer-personal span {
+    color: #f4f4f3;
+}

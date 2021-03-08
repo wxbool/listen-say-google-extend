@@ -39,130 +39,140 @@
                    </li>
                </ul>
            </div>
-           <section class="tab-box" data-name="player">
-               <ul class="playlist" >
 
-               </ul>
-           </section>
-           <section class="tab-box" data-name="insert" style="display: none;">
-               <div class="insert-player">
-                   <div class="insert-common">
-                       <div class="form-group">
-                           <label>添加类型</label>
-                           <div>
-                               <label class="radio-inline">
-                                   <input class="insert-genre" type="radio" name="genre" value="url" vf-bind="genre" vf-rule="require" vf-msg="请选择添加类型" checked> 文章阅读
-                               </label>
-                               <label class="radio-inline">
-                                   <input class="insert-genre" type="radio" name="genre" value="text" > 文本阅读
+           <div class="tab-container">
+               <section class="tab-box" data-name="player">
+                   <ul class="playlist" >
+
+                   </ul>
+               </section>
+
+               <section class="tab-box" data-name="insert" style="display: none;">
+                   <div class="insert-player">
+                       <div class="insert-common">
+                           <div class="form-group">
+                               <label>添加类型</label>
+                               <div>
+                                   <label class="radio-inline">
+                                       <input class="insert-genre" type="radio" name="genre" value="url" vf-bind="genre" vf-rule="require" vf-msg="请选择添加类型" checked> 文章阅读
+                                   </label>
+                                   <label class="radio-inline">
+                                       <input class="insert-genre" type="radio" name="genre" value="text" > 文本阅读
+                                   </label>
+                               </div>
+                           </div>
+                       </div>
+
+                       <div class="insert-url">
+                           <div class="form-group">
+                               <label>文章url</label>
+                               <input type="text" id="source_url_tips" class="form-control" vf-bind="source_url" vf-rule="require|url" vf-msg="请填写文章url" placeholder="目标文章url地址">
+                               <label class="control-label" for="source_url_tips" style="margin-top: 8px;">
+                                   <small class="text-warning">
+                                       目前支持<a href="#">微信公众号</a>、
+                                       <a href="#" class="_target_url" data-url="http://daily.zhihu.com/">知乎日报</a>、
+                                       <a href="#" class="_target_url" data-url="https://36kr.com/information/web_news">36氪</a>、
+                                       <a href="#" class="_target_url" data-url="https://www.huxiu.com/article">虎嗅</a> 、
+                                       <a href="#" class="_target_url" data-url="https://www.guokr.com/">果壳</a>、
+                                       <a href="#" class="_target_url" data-url="https://www.jianshu.com/">简书</a>文章
+                                   </small>
                                </label>
                            </div>
                        </div>
-                   </div>
 
-                   <div class="insert-url">
-                       <div class="form-group">
-                           <label>文章url</label>
-                           <input type="text" id="source_url_tips" class="form-control" vf-bind="source_url" vf-rule="require|url" vf-msg="请填写文章url" placeholder="目标文章url地址">
-                           <label class="control-label" for="source_url_tips" style="margin-top: 8px;">
-                               <small class="text-warning">
-                                   目前支持<a href="#">微信公众号</a>、
-                                   <a href="#" class="_target_url" data-url="http://daily.zhihu.com/">知乎日报</a>、
-                                   <a href="#" class="_target_url" data-url="https://36kr.com/information/web_news">36氪</a>、
-                                   <a href="#" class="_target_url" data-url="https://www.huxiu.com/article">虎嗅</a> 、
-                                   <a href="#" class="_target_url" data-url="https://www.guokr.com/">果壳</a>、
-                                   <a href="#" class="_target_url" data-url="https://www.jianshu.com/">简书</a>文章
-                               </small>
-                           </label>
+                       <div class="insert-text" style="display:none;">
+                           <div class="form-group">
+                               <label>文本标题</label>
+                               <input type="text" class="form-control" vf-bind="title" vf-rule="require" vf-msg="请填写文本标题" placeholder="文本标题">
+                           </div>
+                           <div class="form-group">
+                               <label>文本内容</label>
+                               <textarea class="form-control" rows="6" vf-bind="source_text" vf-rule="require" vf-msg="请填写文本内容" placeholder="阅读文本内容"></textarea>
+                           </div>
+                       </div>
+
+                       <div class="_btnbox">
+                           <button type="button" class="btn btn-block btn-success btn-sm btn-confirm">确认添加</button>
                        </div>
                    </div>
+               </section>
 
-                   <div class="insert-text" style="display:none;">
+               <section class="tab-box" data-name="config" style="display: none;">
+                   <div class="insert-config">
                        <div class="form-group">
-                           <label>文本标题</label>
-                           <input type="text" class="form-control" vf-bind="title" vf-rule="require" vf-msg="请填写文本标题" placeholder="文本标题">
+                           <label>发音人</label>
+
+                           <div>
+                               <ul class="nav nav-tabs voice-header">
+                                   <li role="presentation" data-group="通用"><a href="#">通用</a></li>
+                                   <li role="presentation" data-group="精品"><a href="#">精品</a></li>
+                                   <li role="presentation" data-group="方言"><a href="#">方言</a></li>
+                                   <li role="presentation" data-group="英语"><a href="#">英语</a></li>
+                               </ul>
+                               <div class="voice-container" id="voice-container">
+
+                               </div>
+                           </div>
+                       </div>
+
+                       <div class="form-group">
+                           <label>朗读速度</label>
+                           <select class="form-control" vf-bind="speed">
+                               <option value="normal" selected>正常</option>
+                               <option value="faster">较快</option>
+                               <option value="slower">较慢</option>
+                               <option value="fast">快</option>
+                               <option value="slow">慢</option>
+                           </select>
                        </div>
                        <div class="form-group">
-                           <label>文本内容</label>
-                           <textarea class="form-control" rows="6" vf-bind="source_text" vf-rule="require" vf-msg="请填写文本内容" placeholder="阅读文本内容"></textarea>
+                           <label>播放前提示音</label>
+
+                           <div>
+                               <label class="radio-inline">
+                                   <input type="radio" name="plays_sound" vf-bind="plays_sound" value="1" checked> 开启
+                               </label>
+                               <label class="radio-inline">
+                                   <input type="radio" name="plays_sound" value="2"> 关闭
+                               </label>
+                           </div>
                        </div>
+
+                       <!--发音人-->
+                       <input type="hidden" vf-bind="voice_name" value="aixia">
+                       <!--分组-->
+                       <input type="hidden" vf-bind="group" value="通用">
                    </div>
 
                    <div class="_btnbox">
-                       <button type="button" class="btn btn-block btn-success btn-sm btn-confirm">确认添加</button>
+                       <button type="button" class="btn btn-block btn-success btn-sm btn-confirm-config">保存设置</button>
                    </div>
-               </div>
-           </section>
+               </section>
 
-           <section class="tab-box" data-name="config" style="display: none;">
-               <div class="insert-config">
-                   <div class="form-group">
-                       <label>发音人</label>
-                       <select class="form-control" vf-bind="voice_name">
-                           <option value="aixia" selected>艾夏[亲和女声]</option>
-                           <option value="aiqi">艾琪[温柔女声]</option>
-                           <option value="aijia">艾佳[标准女声]</option>
-                           <option value="siqi">思琪[温柔女声]</option>
-                           <option value="aibao">艾宝[萝莉女声]</option>
-                           <option value="siyue">思悦[温柔女声]</option>
-                           <option value="aida">艾达[标准男声]</option>
-                           <option value="aicheng">艾诚[标准男声]</option>
-                           <option value="sicheng">思诚[标准男声]</option>
-                       </select>
+               <section class="tab-box" data-name="info" style="display: none;">
+
+                   <div class="_info" style="padding: 10px 5px;">
+                       <blockquote>
+                           <p style="font-size: 14px;">插件目前仅为测试版。</p>
+                           <p style="font-size: 14px;">插件更新及bug修复会及时发布在<mark>github</mark>、<mark>码云</mark>上，请注意关注。</p>
+                           <p style="font-size: 14px;">如有功能建议或使用过程出现bug，可以通过以下几种方式告知：</p>
+                           <p style="font-size: 14px;">1.通过邮件 <mark>wangxin8@foxmail.com</mark> 通知我</p>
+                           <p style="font-size: 14px;">2.在<mark>码云</mark>提交点评或<mark>github</mark>提交Issues</p>
+                           <footer> 您需要知道</footer>
+                       </blockquote>
+
+                       <blockquote style="padding: 3px 20px;">
+                           <p style="font-size: 14px;"><a href="#" class="_target_url" data-url="https://github.com/wxbool/listen-say-google-extend">https://github.com/wxbool/listen-say-google-extend</a></p>
+                           <footer> github</footer>
+                       </blockquote>
+                       <blockquote style="padding: 3px 20px;">
+                           <p style="font-size: 14px;"><a href="#" class="_target_url" data-url="https://gitee.com/641453620/listen-say-google-extend">https://gitee.com/641453620/listen-say-google-extend</a></p>
+                           <footer> 码云</footer>
+                       </blockquote>
                    </div>
-                   <div class="form-group">
-                       <label>朗读速度</label>
-                       <select class="form-control" vf-bind="speed">
-                           <option value="normal" selected>正常</option>
-                           <option value="faster">较快</option>
-                           <option value="slower">较慢</option>
-                           <option value="fast">快</option>
-                           <option value="slow">慢</option>
-                       </select>
-                   </div>
-                   <div class="form-group">
-                       <label>播放前提示音</label>
 
-                       <div>
-                           <label class="radio-inline">
-                               <input type="radio" name="plays_sound" vf-bind="plays_sound" value="1" checked> 开启
-                           </label>
-                           <label class="radio-inline">
-                               <input type="radio" name="plays_sound" value="2"> 关闭
-                           </label>
-                       </div>
-                   </div>
-               </div>
-
-               <div class="_btnbox">
-                   <button type="button" class="btn btn-block btn-success btn-sm btn-confirm-config">保存设置</button>
-               </div>
-           </section>
-            
-
-           <section class="tab-box" data-name="info" style="display: none;">
-
-               <div class="_info" style="padding: 10px 5px;">
-                   <blockquote>
-                       <p style="font-size: 14px;">插件目前仅为测试版。</p>
-                       <p style="font-size: 14px;">插件更新及bug修复会及时发布在<mark>github</mark>、<mark>码云</mark>上，请注意关注。</p>
-                       <p style="font-size: 14px;">如有功能建议或使用过程出现bug，可以通过以下几种方式告知：</p>
-                       <p style="font-size: 14px;">1.通过邮件 <mark>wangxin8@foxmail.com</mark> 通知我</p>
-                       <p style="font-size: 14px;">2.在<mark>码云</mark>提交点评或<mark>github</mark>提交Issues</p>
-                       <footer> 您需要知道</footer>
-                   </blockquote>
-
-                   <blockquote style="padding: 3px 20px;">
-                       <p style="font-size: 14px;"><a href="#" class="_target_url" data-url="https://github.com/wxbool/listen-say-google-extend">https://github.com/wxbool/listen-say-google-extend</a></p>
-                       <footer> github</footer>
-                   </blockquote>
-                   <blockquote style="padding: 3px 20px;">
-                       <p style="font-size: 14px;"><a href="#" class="_target_url" data-url="https://gitee.com/641453620/listen-say-google-extend">https://gitee.com/641453620/listen-say-google-extend</a></p>
-                       <footer> 码云</footer>
-                   </blockquote>
-               </div>
-
-           </section>
+               </section>
+           </div>
 
            <div class="player-boot">
                <div class="info">

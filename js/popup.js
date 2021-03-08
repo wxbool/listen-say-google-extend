@@ -1,3 +1,56 @@
+var Voices = [
+    //通用
+    {"name":"艾夏","voice":"aixia","tips":"亲和女声","sence":"通用"},
+    {"name":"思悦","voice":"siyue","tips":"温柔女声","sence":"通用"},
+    {"name":"艾雅","voice":"aiya","tips":"严厉女声","sence":"通用"},
+    {"name":"艾美","voice":"aimei","tips":"甜美女声","sence":"通用"},
+    {"name":"艾雨","voice":"aiyu","tips":"自然女声","sence":"通用"},
+    {"name":"艾悦","voice":"aiyue","tips":"温柔女声","sence":"通用"},
+    {"name":"艾婧","voice":"aijing","tips":"严厉女声","sence":"通用"},
+    {"name":"小美","voice":"xiaomei","tips":"甜美女声","sence":"通用"},
+    {"name":"艾娜","voice":"aina","tips":"浙普女声","sence":"通用"},
+    {"name":"伊娜","voice":"yina","tips":"浙普女声","sence":"通用"},
+    {"name":"思婧","voice":"sijing","tips":"严厉女声","sence":"通用"},
+    {"name":"艾硕","voice":"aishuo","tips":"自然男声","sence":"通用"},
+    //精品
+    {"name":"艾媛","voice":"aiyuan","tips":"知心姐姐","sence":"精品"},
+    {"name":"艾颖","voice":"aiying","tips":"软萌童声","sence":"精品"},
+    {"name":"艾祥","voice":"aixiang","tips":"磁性男声","sence":"精品"},
+    {"name":"艾墨","voice":"aimo","tips":"情感男声","sence":"精品"},
+    {"name":"艾晔","voice":"aiye","tips":"青年男声","sence":"精品"},
+    {"name":"艾婷","voice":"aiting","tips":"电台女声","sence":"精品"},
+    {"name":"艾凡","voice":"aifan","tips":"情感女声","sence":"精品"},
+    {"name":"艾德","voice":"aide","tips":"新闻男声","sence":"精品"},
+    {"name":"艾楠","voice":"ainan","tips":"广告男声","sence":"精品"},
+    {"name":"艾浩","voice":"aihao","tips":"资讯男声","sence":"精品"},
+    {"name":"艾茗","voice":"aiming","tips":"诙谐男声","sence":"精品"},
+    {"name":"艾笑","voice":"aixiao","tips":"资讯女声","sence":"精品"},
+    {"name":"艾厨","voice":"aichu","tips":"舌尖男声","sence":"精品"},
+    {"name":"艾倩","voice":"aiqian","tips":"资讯女声","sence":"精品"},
+    {"name":"艾树","voice":"aishu","tips":"资讯男声","sence":"精品"},
+    {"name":"艾茹","voice":"airu","tips":"新闻女声","sence":"精品"},
+    //方言
+    {"name":"姗姗","voice":"shanshan","tips":"粤语女声","sence":"方言"},
+    {"name":"小玥","voice":"chuangirl","tips":"四川话女声","sence":"方言"},
+    {"name":"青青","voice":"qingqing","tips":"台湾话女声","sence":"方言"},
+    {"name":"翠姐","voice":"cuijie","tips":"东北话女声","sence":"方言"},
+    {"name":"小泽","voice":"xiaoze","tips":"湖南重口音男声","sence":"方言"},
+    {"name":"佳佳","voice":"jiajia","tips":"粤语女声","sence":"方言"},
+    //英语
+    {"name":"Harry","voice":"harry","tips":"英音男声","sence":"英语"},
+    {"name":"Abby","voice":"abby","tips":"美音女声","sence":"英语"},
+    {"name":"Andy","voice":"andy","tips":"美音男声","sence":"英语"},
+    {"name":"Eric","voice":"eric","tips":"英音男声","sence":"英语"},
+    {"name":"Emily","voice":"emily","tips":"英音女声","sence":"英语"},
+    {"name":"Luna","voice":"luna","tips":"英音女声","sence":"英语"},
+    {"name":"Luca","voice":"luca","tips":"英音男声","sence":"英语"},
+    {"name":"Wendy","voice":"wendy","tips":"英音女声","sence":"英语"},
+    {"name":"William","voice":"william","tips":"英音男声","sence":"英语"},
+    {"name":"Olivia","voice":"olivia","tips":"英音女声","sence":"英语"},
+    {"name":"Lydia","voice":"lydia","tips":"英中双语女声","sence":"英语"},
+    {"name":"Annie","voice":"annie","tips":"美语女声","sence":"英语"},
+];
+
 $(function () {
     new PageScript();
 });
@@ -19,7 +72,6 @@ class PageScript {
 
         this.loadPlayList();
         this.loadPlayerSet();
-        this.bindEvent();
 
         let $this = this;
         chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
@@ -65,6 +117,11 @@ class PageScript {
                     $this.configData.set(say_config);
                 }
             }
+            
+            console.log(data);
+
+            //准备就绪
+            $this.bindEvent();
         });
     }
 
@@ -102,10 +159,68 @@ class PageScript {
     }
 
 
+    /**
+     * @param voice
+     * @returns {*}
+     */
+    getVoiceGroup (voice){
+        for (let i in Voices){
+            if (voice == Voices[i].voice) {
+                return Voices[i].sence;
+            }
+        }
+        return null;
+    }
+
+
+    loadVoiceGroup (){
+        let $this = this;
+        //<div class="voice-group show">
+        //    <div class="voicer-personal active"><h4>艾夏<small>亲和女声</small></h4></div>
+        //</div>
+
+        //当前发音人
+        let voice = $this.configData.get('voice_name')
+        //当前分组
+        let group = $this.getVoiceGroup(voice);
+        if (group) {
+            $(`.voice-header li[data-group=${group}]`).addClass("active");
+        }
+
+        let voiceHtml = "";
+        let groups = ['通用' , '精品' , '方言' , '英语'];
+
+        for (let g in groups) {
+            let currGroup = groups[g];
+            let groupHtml = `<div class="voice-group {groupshow}" data-group="${currGroup}">`;
+            groupHtml = groupHtml.replace(/{groupshow}/g , (currGroup==group) ? 'show' : '');
+
+            //遍历发音人
+            for (let i in Voices){
+                let currVoice = Voices[i];
+                if (currGroup != currVoice.sence){
+                    continue;
+                }
+
+                let vhtml =`<div class="voicer-personal {active}" data-voice="${currVoice.voice}"><h4>${currVoice.name}<small>${currVoice.tips}</small></h4></div>`;
+                vhtml = vhtml.replace(/{active}/g , (currVoice.voice==voice) ? 'active' : '');
+                groupHtml += vhtml;
+            }
+
+            groupHtml += `</div>`;
+            voiceHtml += groupHtml;
+        }
+        $("#voice-container").html(voiceHtml);
+    }
+
+    
     bindEvent () {
         let $this = this;
 
-        //切换tab
+        //加载发音人分组列表
+        $this.loadVoiceGroup();
+
+        //切换工具tab
         $("._tabs li").click(function () {
             let _this = $(this);
             let name = _this.data('name');
@@ -115,6 +230,31 @@ class PageScript {
 
             $(".tab-box").hide();
             $(`.tab-box[data-name="${name}"]`).show();
+        });
+
+        //切换发音人group
+        $(".voice-header li").click(function () {
+            let _this = $(this);
+            let name = $.trim(_this.text());
+
+            $(".voice-header li").removeClass('active');
+            _this.addClass('active');
+            $(".voice-container .voice-group").removeClass('show');
+            $(`.voice-container .voice-group[data-group="${name}"]`).addClass('show');
+            //set
+            $this.configData.set("group" , name);
+        });
+
+        //切换发音人
+        $(".voice-container .voice-group .voicer-personal").click(function () {
+            let _this = $(this);
+            let voice = _this.data("voice");
+            if (voice) {
+                $(`.voice-container .voice-group .voicer-personal.active`).removeClass('active');
+                _this.addClass("active");
+                //设置发音人
+                $this.configData.set("voice_name" , voice);
+            }
         });
 
         //添加类型
@@ -201,7 +341,7 @@ class PageScript {
             if (vali !== true) {
                 return;
             }
-
+            
             $btnConfirm.html('添加中 <i class="fa fa-spinner fa-pulse"></i>').attr('disabled' , true);
 
             let data = $this.insertData.get();
@@ -237,7 +377,7 @@ class PageScript {
                 } , errorHandle);
             } , errorHandle);
         });
-
+        
         //保存设置
         $(".btn-confirm-config").click(function () {
             let data = $this.configData.get();

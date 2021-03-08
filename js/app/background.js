@@ -10,7 +10,6 @@ $(function () {
             title:'失败',
             message:message
         });
-        console.log(message);
     }
     
     //注册自定义右键菜单
@@ -125,7 +124,7 @@ $(function () {
 class AudioPlay {
     constructor() {
         this.id = 'music-audio';
-        this.playUrl = 'http://api.aiyingso.com:88/';
+        this.playUrl = 'http://say.viggo.site/';
         this.audio = document.getElementById(this.id);
         this.ttsApp = new VoiceTts();
         this.storage = new Storage();
@@ -180,6 +179,7 @@ class AudioPlay {
             if (!data){
                 return;
             }
+            // console.log("data:" , data);
             //0等待开始，1读取任务配置，2语音合成中，3任务完成，4任务异常
             if (data.status === 4) {
                 chrome.notifications.create({
