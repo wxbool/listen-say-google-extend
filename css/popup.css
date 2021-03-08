@@ -191,7 +191,7 @@ body {
 .player-boot ._operate span:hover{
     color: #27d22a;
 }
-/*.tab-container {max-height: 428px;overflow-y: scroll;}*/
+.voice-tabs{max-height: 425px;overflow-y: auto;}
 
 .voice-header {background: #262729;border-bottom:none;}
 .voice-header > li {margin-bottom: 0;}
